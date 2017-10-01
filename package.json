@@ -1,0 +1,19 @@
+{
+  "name": "what-color",
+  "version": "0.0.1",
+  "description": "Color picker extension for Chrome",
+  "repository": "git@github.com:adrianbota/what-color.git",
+  "author": "Adrian Bota <adrianbota@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.6.0"
+  },
+  "scripts": {
+    "build": "webpack --optimize-minimize",
+    "dev": "webpack --progress --colors --watch"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0"
+  }
+}
