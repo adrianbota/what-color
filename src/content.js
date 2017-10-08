@@ -1,34 +1,99 @@
-var base64ToCanvas = require('./base64-to-canvas');
-var pixelColor = require('./pixel-color');
-var document = require('./document');
+var debounce = require('lodash.debounce');
+var containerTmpl = require('mustache-loader!./container.html');
+var widgetTmpl = require('mustache-loader!./widget.html');
 
-chrome.runtime.onMessage.addListener(function (action, sender, respond) {
-  if (action.type === 'content_start') {
-    var overlay = document.createElement('div');
-    var mouseDownHandler = function (e) {
-      chrome.runtime.sendMessage({
-        type: 'background_capture',
-        payload: {
-          tabId: action.payload,
-          px: e.pageX - window.pageXOffset,
-          py: e.pageY - window.pageYOffset
-        }
-      });
+var containerId = null;
+var colorInputId = null;
+var container = null;
+var image = null;
+var canvas = null;
+var color = null;
 
-      overlay.removeEventListener('mousedown', mouseDownHandler);
-      document.body.removeChild(overlay);
+var rgbToHex = function (r, g, b) {
+  return ('000000' + ((r << 16) | (g << 8) | b).toString(16)).slice(-6).toUpperCase();
+};
 
-      e.preventDefault();
-      e.stopPropagation();
-    };
+var renderWidget = function () {
+  if (!container) { return; }
 
-    overlay.style = 'position:fixed;width:100%;height:100%;left:0;top:0;z-index:100000;cursor:crosshair';
-    document.body.appendChild(overlay);
-    overlay.addEventListener('mousedown', mouseDownHandler);
-  }
-  else if (action.type === 'content_get_color') {
-    base64ToCanvas(action.payload.b64).then(function (canvas) {
-      console.log(pixelColor(canvas, action.payload.px, action.payload.py));
-    });
-  }
+  container.innerHTML = widgetTmpl({
+    colorInputId: colorInputId,
+    color: color
+  });
+};
+
+var containerMousemoveHandler = debounce(function (e) {
+  var px = e.clientX;
+  var py = e.clientY;
+
+  var imageLoadHandler = function () {
+    if (!canvas) { return; }
+
+    var context = canvas.getContext('2d');
+    var pixelData = null;
+
+    canvas.width = image.width / window.devicePixelRatio;
+    canvas.height = image.height / window.devicePixelRatio;
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    pixelData = context.getImageData(px, py, 1, 1).data;
+    color = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
+
+    renderWidget();
+  };
+
+  var screenshotHandler = function (data) {
+    if (!image) { return; }
+
+    image.onload = imageLoadHandler;
+    image.src = data;
+  };
+
+  chrome.runtime.sendMessage(null, 'TAKE_SCREENSHOT', null, screenshotHandler);
+}, 200);
+
+var containerMouseupHandler = function (e) {
+  var colorInput = document.getElementById(colorInputId);
+  colorInput.focus();
+  colorInput.setSelectionRange(0, colorInput.value.length)
+  document.execCommand('copy');
+
+  stop();
+};
+
+var start = function () {
+  if (containerId) { return; }
+
+  containerId = ('__what_color_extension_' + (new Date()).getTime());
+  colorInputId = (containerId + '_color_input');
+
+  document.body.insertAdjacentHTML('beforeend', containerTmpl({ id: containerId }));
+  container = document.getElementById(containerId);
+  container.addEventListener('mousemove', containerMousemoveHandler);
+  container.addEventListener('mouseup', containerMouseupHandler);
+
+  image = new Image();
+  canvas = document.createElement('canvas');
+
+  color = 'FFFFFF';
+  renderWidget();
+};
+
+var stop = function () {
+  if (!containerId) { return; }
+
+  container.removeEventListener('mousemove', containerMousemoveHandler);
+  container.removeEventListener('mouseup', containerMouseupHandler);
+  document.body.removeChild(container);
+
+  containerId = null;
+  colorInputId = null;
+  container = null;
+  image = null;
+  canvas = null;
+  color = null;
+};
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message === 'START') { start(); }
 });

@@ -1,21 +1,14 @@
+// when extension icon is clicked
 chrome.browserAction.onClicked.addListener(function (tab) {
-  chrome.tabs.sendMessage(tab.id, { type: 'content_start', payload: tab.id });
+  // tell current tab content script to start
+  chrome.tabs.sendMessage(tab.id, 'START');
 });
 
-
-chrome.runtime.onMessage.addListener(function (action) {
-  if (action.type === 'background_capture') {
-    chrome.tabs.captureVisibleTab({
-      format: 'png'
-    }, function (b64) {
-      chrome.tabs.sendMessage(action.payload.tabId, {
-        type: 'content_get_color',
-        payload: {
-          b64: b64,
-          px: action.payload.px,
-          py: action.payload.py
-        }
-      });
-    });
+// when content script sends message
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  // take screenshot of the current tab, in PNG format
+  if (message === 'TAKE_SCREENSHOT') {
+    chrome.tabs.captureVisibleTab(sender.windowId, { format: 'png' }, sendResponse);
+    return true; // sendResponse async
   }
 });

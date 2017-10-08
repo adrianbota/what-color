@@ -6,6 +6,7 @@
   "author": "Adrian Bota <adrianbota@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
+    "mustache-loader": "^1.2.0",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.6.0"
   },
@@ -14,6 +15,6 @@
     "dev": "webpack --progress --colors --watch"
   },
   "dependencies": {
-    "bluebird": "^3.5.0"
+    "lodash.debounce": "^4.0.8"
   }
 }

@@ -1,25 +1,30 @@
 {
   "manifest_version": 2,
-
   "name": "What Color - Color Picker",
-  "description": "",
+  "description": "Color Picker for Chrome",
   "version": "0.0.1",
-
-  "browser_action": {
+  "browser_action": {},
+  "icons": {
+    "128": "what-color-icon.png"
   },
-
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "what-color-background.js"
+    ],
     "persistent": false
   },
-
-  "content_scripts": [{
-    "js": ["content.js"],
-    "matches": ["*://*/*"]
-  }],
-
+  "content_scripts": [
+    {
+      "js": [
+        "what-color-content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
   "permissions": [
-    "activeTab",
-    "clipboardWrite"
+    "<all_urls>"
   ]
 }
