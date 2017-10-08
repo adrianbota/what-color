@@ -1,4 +1,3 @@
-var debounce = require('lodash.debounce');
 var containerTmpl = require('mustache-loader!./container.html');
 var widgetTmpl = require('mustache-loader!./widget.html');
 
@@ -8,6 +7,7 @@ var container = null;
 var image = null;
 var canvas = null;
 var color = null;
+var imageData = '';
 
 var rgbToHex = function (r, g, b) {
   return ('000000' + ((r << 16) | (g << 8) | b).toString(16)).slice(-6).toUpperCase();
@@ -17,40 +17,35 @@ var renderWidget = function () {
   if (!container) { return; }
 
   container.innerHTML = widgetTmpl({
+    imageData: imageData,
     colorInputId: colorInputId,
     color: color
   });
 };
 
-var containerMousemoveHandler = debounce(function (e) {
-  var px = e.clientX;
-  var py = e.clientY;
+var imageLoadHandler = function () {
+  if (!canvas) { return; }
 
-  var imageLoadHandler = function () {
-    if (!canvas) { return; }
+  var context = canvas.getContext('2d');
 
-    var context = canvas.getContext('2d');
-    var pixelData = null;
+  canvas.width = image.width / window.devicePixelRatio;
+  canvas.height = image.height / window.devicePixelRatio;
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+};
 
-    canvas.width = image.width / window.devicePixelRatio;
-    canvas.height = image.height / window.devicePixelRatio;
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+var screenshotHandler = function (data) {
+  if (!image) { return; }
 
-    pixelData = context.getImageData(px, py, 1, 1).data;
-    color = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
+  imageData = data;
+  image.onload = imageLoadHandler;
+  image.src = data;
+};
 
-    renderWidget();
-  };
-
-  var screenshotHandler = function (data) {
-    if (!image) { return; }
-
-    image.onload = imageLoadHandler;
-    image.src = data;
-  };
-
-  chrome.runtime.sendMessage(null, 'TAKE_SCREENSHOT', null, screenshotHandler);
-}, 200);
+var containerMousemoveHandler = function (e) {
+  var pixelData = canvas.getContext('2d').getImageData(e.clientX, e.clientY, 1, 1).data;
+  color = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
+  renderWidget();
+};
 
 var containerMouseupHandler = function (e) {
   var colorInput = document.getElementById(colorInputId);
@@ -77,6 +72,8 @@ var start = function () {
 
   color = 'FFFFFF';
   renderWidget();
+
+  chrome.runtime.sendMessage(null, 'TAKE_SCREENSHOT', null, screenshotHandler);
 };
 
 var stop = function () {
@@ -92,6 +89,7 @@ var stop = function () {
   image = null;
   canvas = null;
   color = null;
+  imageData = '';
 };
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
