@@ -1,0 +1,39 @@
+<div
+  id="{{containerId}}"
+  style="
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    cursor: crosshair;
+    box-sizing: border-box;
+    user-select: none;
+  ">
+  <div
+    id="{{canvasWrapperId}}"
+    style="
+      position: absolute;
+      z-index: 50;
+      left: 0;
+      top: 0;
+      user-select: none;
+      pointer-events: none;
+    "
+  ></div>
+  <div
+    id="{{colorWidgetId}}"
+    style="
+      position: absolute;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      user-select: none;
+      pointer-events: none;
+    "
+  ></div>
+</div>
