@@ -1,77 +1,58 @@
 import onExtensionMessage from '../common/on-message';
 import convertDataToCanvas from './convert-data-to-canvas';
-import createElementId from './create-element-id';
-import getElement from './get-element';
-import containerTempl from 'mustache-loader!./html/container.html';
-import widgetTempl from 'mustache-loader!./html/color-widget.html';
-import rgbToHex from '../utils/rgb-to-hex';
+import renderColorWidget from './render-color-widget';
+import getCanvasPixelColor from './get-canvas-pixel-color';
+import copyColor from './copy-color';
+import injectContainer from './inject-container';
+import injectCanvas from './inject-canvas';
+import registerEvents from './register-events';
+import unregisterEvents from './unregister-events';
+import removeContainer from './remove-container';
+import isContainerInjected from './is-container-injected';
 
-let uid = null;
-
-let renderColorWidget = (color) => {
-  document.getElementById(createElementId('widget', uid)).innerHTML =
-    widgetTempl({
-      color: color,
-      colorInputId: createElementId('color', uid)
-    });
-};
-
-let onContainerMouseMove = (e) => {
+let killEvent = (e) => {
   e.preventDefault();
   e.stopPropagation();
-
-  let canvas = getElement('canvas', uid);
-  let pixelData = canvas.getContext('2d').getImageData(e.clientX, e.clientY, 1, 1).data;
-  renderColorWidget(rgbToHex(pixelData[0], pixelData[1], pixelData[2]));
 };
 
-let onContainerMouseUp = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  var colorInput = getElement('color', uid);
-  colorInput.focus();
-  colorInput.setSelectionRange(0, colorInput.value.length)
-  document.execCommand('copy');
-
-  stop();
+let mouseMoveHandler = (e) => {
+  killEvent(e);
+  renderColorWidget(getCanvasPixelColor(e.clientX, e.clientY));
 };
 
-let stop = () => {
-  let containerEl = getElement('container', uid);
-  if (containerEl) {
-    containerEl.removeEventListener('mouseup', onContainerMouseUp);
-    containerEl.removeEventListener('mousemove', onContainerMouseMove);
-    document.body.removeChild(containerEl);
+let mouseUpHandler = (e) => {
+  killEvent(e);
+  copyColor();
+  destroy();
+};
+
+const EVENTS = [
+  {
+    event: 'mouseup',
+    handler: mouseUpHandler
+  },
+  {
+    event: 'mousemove',
+    handler: mouseMoveHandler
   }
+];
+
+let destroy = () => {
+  unregisterEvents(EVENTS);
+  removeContainer();
 };
 
 let init = (canvas) => {
-  stop();
-
-  uid = (new Date).getTime();
-
-  document.body.insertAdjacentHTML('beforeend', containerTempl({
-    containerId: createElementId('container', uid),
-    canvasWrapperId: createElementId('canvasWrapper', uid),
-    colorWidgetId: createElementId('widget', uid)
-  }));
-
-  let containerEl = getElement('container', uid);
-  containerEl.addEventListener('mouseup', onContainerMouseUp);
-  containerEl.addEventListener('mousemove', onContainerMouseMove);
-
-  canvas.id = createElementId('canvas', uid);
-  document.getElementById(createElementId('canvasWrapper', uid))
-    .appendChild(canvas);
-
-  renderColorWidget('FFFFFF');
+  injectContainer();
+  registerEvents(EVENTS);
+  injectCanvas(canvas);
+  renderColorWidget();
 };
 
-let start = (data) =>
-  convertDataToCanvas(data)
-    .then((canvas) => init(canvas));
-
 onExtensionMessage({
-  'START': (payload) => start(payload)
+  'START': (data) => {
+    if (!isContainerInjected()) {
+      convertDataToCanvas(data).then(init);
+    }
+  }
 });
