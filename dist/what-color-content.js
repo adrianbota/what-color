@@ -64,7 +64,31 @@
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const CONTAINER_ID = '__what_color_container__';
+/* harmony export (immutable) */ __webpack_exports__["e"] = CONTAINER_ID;
+
+const CANVAS_WRAPPER_ID = '__what_color_canvas_wrapper__';
+/* harmony export (immutable) */ __webpack_exports__["b"] = CANVAS_WRAPPER_ID;
+
+const CANVAS_ID = '__what_color_canvas__';
+/* harmony export (immutable) */ __webpack_exports__["a"] = CANVAS_ID;
+
+const COLOR_WIDGET_ID = '__what_color_color_widget__';
+/* harmony export (immutable) */ __webpack_exports__["d"] = COLOR_WIDGET_ID;
+
+const COLOR_INPUT_ID = '__what_color_color_input__';
+/* harmony export (immutable) */ __webpack_exports__["c"] = COLOR_INPUT_ID;
+
+const DEFAULT_COLOR = 'FFFFFF';
+/* harmony export (immutable) */ __webpack_exports__["f"] = DEFAULT_COLOR;
+
+
+
+/***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -103,15 +127,15 @@ module.exports = Hogan;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_on_message__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__convert_data_to_canvas__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__render_color_widget__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__get_canvas_pixel_color__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__copy_color__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inject_container__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__inject_canvas__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__register_events__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__unregister_events__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__remove_container__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__is_container_injected__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__render_color_widget__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__get_canvas_pixel_color__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__copy_color__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inject_container__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__inject_canvas__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__register_events__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__unregister_events__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__remove_container__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__is_container_injected__ = __webpack_require__(24);
 
 
 
@@ -242,12 +266,30 @@ let message = chrome.runtime.onMessage;
 
 
 /***/ }),
-/* 11 */,
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__page_config__ = __webpack_require__(0);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ((color) => {
+  document.getElementById(__WEBPACK_IMPORTED_MODULE_1__page_config__["d" /* COLOR_WIDGET_ID */]).innerHTML = __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache___default()({
+    color: (color || __WEBPACK_IMPORTED_MODULE_1__page_config__["f" /* DEFAULT_COLOR */]),
+    colorInputId: __WEBPACK_IMPORTED_MODULE_1__page_config__["c" /* COLOR_INPUT_ID */]
+  });
+});
+
+
+/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var H = __webpack_require__(1);
-module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div");t.b("\n" + i);t.b("  id=\"");t.b(t.v(t.f("containerId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("  style=\"");t.b("\n" + i);t.b("    position: fixed;");t.b("\n" + i);t.b("    z-index: 100000;");t.b("\n" + i);t.b("    left: 0;");t.b("\n" + i);t.b("    top: 0;");t.b("\n" + i);t.b("    right: 0;");t.b("\n" + i);t.b("    bottom: 0;");t.b("\n" + i);t.b("    background: transparent;");t.b("\n" + i);t.b("    cursor: crosshair;");t.b("\n" + i);t.b("    box-sizing: border-box;");t.b("\n" + i);t.b("    user-select: none;");t.b("\n" + i);t.b("  \">");t.b("\n" + i);t.b("  <div");t.b("\n" + i);t.b("    id=\"");t.b(t.v(t.f("canvasWrapperId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      z-index: 50;");t.b("\n" + i);t.b("      left: 0;");t.b("\n" + i);t.b("      top: 0;");t.b("\n" + i);t.b("      user-select: none;");t.b("\n" + i);t.b("      pointer-events: none;");t.b("\n" + i);t.b("    \"");t.b("\n" + i);t.b("  ></div>");t.b("\n" + i);t.b("  <div");t.b("\n" + i);t.b("    id=\"");t.b(t.v(t.f("colorWidgetId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      z-index: 100;");t.b("\n" + i);t.b("      left: 0;");t.b("\n" + i);t.b("      top: 0;");t.b("\n" + i);t.b("      right: 0;");t.b("\n" + i);t.b("      bottom: 0;");t.b("\n" + i);t.b("      user-select: none;");t.b("\n" + i);t.b("      pointer-events: none;");t.b("\n" + i);t.b("    \"");t.b("\n" + i);t.b("  ></div>");t.b("\n" + i);t.b("</div>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<div\n  id=\"{{containerId}}\"\n  style=\"\n    position: fixed;\n    z-index: 100000;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: transparent;\n    cursor: crosshair;\n    box-sizing: border-box;\n    user-select: none;\n  \">\n  <div\n    id=\"{{canvasWrapperId}}\"\n    style=\"\n      position: absolute;\n      z-index: 50;\n      left: 0;\n      top: 0;\n      user-select: none;\n      pointer-events: none;\n    \"\n  ></div>\n  <div\n    id=\"{{colorWidgetId}}\"\n    style=\"\n      position: absolute;\n      z-index: 100;\n      left: 0;\n      top: 0;\n      right: 0;\n      bottom: 0;\n      user-select: none;\n      pointer-events: none;\n    \"\n  ></div>\n</div>\n", H);return T.render.apply(T, arguments); };
+module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div");t.b("\n" + i);t.b("  style=\"");t.b("\n" + i);t.b("    position: absolute;");t.b("\n" + i);t.b("    right: 3px;");t.b("\n" + i);t.b("    bottom: 3px;");t.b("\n" + i);t.b("    background: rgba(0, 0, 0, 0.8);");t.b("\n" + i);t.b("    border-radius: 4px;");t.b("\n" + i);t.b("    width: 93px;");t.b("\n" + i);t.b("    height: 30px;");t.b("\n" + i);t.b("    box-sizing: border-box;");t.b("\n" + i);t.b("    pointer-events: none;");t.b("\n" + i);t.b("  \">");t.b("\n" + i);t.b("  <div");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      background: #");t.b(t.v(t.f("color",c,p,0)));t.b(";");t.b("\n" + i);t.b("      width: 24px;");t.b("\n" + i);t.b("      height: 24px;");t.b("\n" + i);t.b("      border-radius: 2px;");t.b("\n" + i);t.b("      border: 1px solid rgba(255, 255, 255, 0.8);");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      left: 3px;");t.b("\n" + i);t.b("      top: 3px;");t.b("\n" + i);t.b("      box-sizing: border-box;");t.b("\n" + i);t.b("    \"></div>");t.b("\n");t.b("\n" + i);t.b("  <input");t.b("\n" + i);t.b("    id=\"");t.b(t.v(t.f("colorInputId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    readonly");t.b("\n" + i);t.b("    type=\"text\"");t.b("\n" + i);t.b("    value=\"");t.b(t.v(t.f("color",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      width: 300px;");t.b("\n" + i);t.b("      height: 22px;");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      left: 30px;");t.b("\n" + i);t.b("      top: 5px;");t.b("\n" + i);t.b("      width: 60px;");t.b("\n" + i);t.b("      background: 0;");t.b("\n" + i);t.b("      border: 0;");t.b("\n" + i);t.b("      color: #fff;");t.b("\n" + i);t.b("      box-sizing: border-box;");t.b("\n" + i);t.b("      font: 12px 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;");t.b("\n" + i);t.b("      text-align: center;");t.b("\n" + i);t.b("    \">");t.b("\n" + i);t.b("</div>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<div\n  style=\"\n    position: absolute;\n    right: 3px;\n    bottom: 3px;\n    background: rgba(0, 0, 0, 0.8);\n    border-radius: 4px;\n    width: 93px;\n    height: 30px;\n    box-sizing: border-box;\n    pointer-events: none;\n  \">\n  <div\n    style=\"\n      background: #{{color}};\n      width: 24px;\n      height: 24px;\n      border-radius: 2px;\n      border: 1px solid rgba(255, 255, 255, 0.8);\n      position: absolute;\n      left: 3px;\n      top: 3px;\n      box-sizing: border-box;\n    \"></div>\n\n  <input\n    id=\"{{colorInputId}}\"\n    readonly\n    type=\"text\"\n    value=\"{{color}}\"\n    style=\"\n      width: 300px;\n      height: 22px;\n      position: absolute;\n      left: 30px;\n      top: 5px;\n      width: 60px;\n      background: 0;\n      border: 0;\n      color: #fff;\n      box-sizing: border-box;\n      font: 12px 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;\n      text-align: center;\n    \">\n</div>\n", H);return T.render.apply(T, arguments); };
 
 /***/ }),
 /* 13 */
@@ -1027,10 +1069,20 @@ var Hogan = {};
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var H = __webpack_require__(1);
-module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div");t.b("\n" + i);t.b("  style=\"");t.b("\n" + i);t.b("    position: absolute;");t.b("\n" + i);t.b("    right: 3px;");t.b("\n" + i);t.b("    bottom: 3px;");t.b("\n" + i);t.b("    background: rgba(0, 0, 0, 0.8);");t.b("\n" + i);t.b("    border-radius: 4px;");t.b("\n" + i);t.b("    width: 93px;");t.b("\n" + i);t.b("    height: 30px;");t.b("\n" + i);t.b("    box-sizing: border-box;");t.b("\n" + i);t.b("    pointer-events: none;");t.b("\n" + i);t.b("  \">");t.b("\n" + i);t.b("  <div");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      background: #");t.b(t.v(t.f("color",c,p,0)));t.b(";");t.b("\n" + i);t.b("      width: 24px;");t.b("\n" + i);t.b("      height: 24px;");t.b("\n" + i);t.b("      border-radius: 2px;");t.b("\n" + i);t.b("      border: 1px solid rgba(255, 255, 255, 0.8);");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      left: 3px;");t.b("\n" + i);t.b("      top: 3px;");t.b("\n" + i);t.b("      box-sizing: border-box;");t.b("\n" + i);t.b("    \"></div>");t.b("\n");t.b("\n" + i);t.b("  <input");t.b("\n" + i);t.b("    id=\"");t.b(t.v(t.f("colorInputId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    readonly");t.b("\n" + i);t.b("    type=\"text\"");t.b("\n" + i);t.b("    value=\"");t.b(t.v(t.f("color",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      width: 300px;");t.b("\n" + i);t.b("      height: 22px;");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      left: 30px;");t.b("\n" + i);t.b("      top: 5px;");t.b("\n" + i);t.b("      width: 60px;");t.b("\n" + i);t.b("      background: 0;");t.b("\n" + i);t.b("      border: 0;");t.b("\n" + i);t.b("      color: #fff;");t.b("\n" + i);t.b("      box-sizing: border-box;");t.b("\n" + i);t.b("      font: 12px 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;");t.b("\n" + i);t.b("      text-align: center;");t.b("\n" + i);t.b("    \">");t.b("\n" + i);t.b("</div>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<div\n  style=\"\n    position: absolute;\n    right: 3px;\n    bottom: 3px;\n    background: rgba(0, 0, 0, 0.8);\n    border-radius: 4px;\n    width: 93px;\n    height: 30px;\n    box-sizing: border-box;\n    pointer-events: none;\n  \">\n  <div\n    style=\"\n      background: #{{color}};\n      width: 24px;\n      height: 24px;\n      border-radius: 2px;\n      border: 1px solid rgba(255, 255, 255, 0.8);\n      position: absolute;\n      left: 3px;\n      top: 3px;\n      box-sizing: border-box;\n    \"></div>\n\n  <input\n    id=\"{{colorInputId}}\"\n    readonly\n    type=\"text\"\n    value=\"{{color}}\"\n    style=\"\n      width: 300px;\n      height: 22px;\n      position: absolute;\n      left: 30px;\n      top: 5px;\n      width: 60px;\n      background: 0;\n      border: 0;\n      color: #fff;\n      box-sizing: border-box;\n      font: 12px 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;\n      text-align: center;\n    \">\n</div>\n", H);return T.render.apply(T, arguments); };
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_rgb_to_hex__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__page_config__ = __webpack_require__(0);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ((px, py) => {
+  let canvas = document.getElementById(__WEBPACK_IMPORTED_MODULE_1__page_config__["a" /* CANVAS_ID */]);
+  let data = canvas.getContext('2d').getImageData(px, py, 1, 1).data;
+  return Object(__WEBPACK_IMPORTED_MODULE_0__utils_rgb_to_hex__["a" /* default */])(data[0], data[1], data[2]);
+});
+
 
 /***/ }),
 /* 16 */
@@ -1046,69 +1098,7 @@ module.exports = function() { var T = new H.Template({code: function (c,p,i) { v
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-const CONTAINER_ID = '__what_color_container__';
-/* harmony export (immutable) */ __webpack_exports__["e"] = CONTAINER_ID;
-
-const CANVAS_WRAPPER_ID = '__what_color_canvas_wrapper__';
-/* harmony export (immutable) */ __webpack_exports__["b"] = CANVAS_WRAPPER_ID;
-
-const CANVAS_ID = '__what_color_canvas__';
-/* harmony export (immutable) */ __webpack_exports__["a"] = CANVAS_ID;
-
-const COLOR_WIDGET_ID = '__what_color_color_widget__';
-/* harmony export (immutable) */ __webpack_exports__["d"] = COLOR_WIDGET_ID;
-
-const COLOR_INPUT_ID = '__what_color_color_input__';
-/* harmony export (immutable) */ __webpack_exports__["c"] = COLOR_INPUT_ID;
-
-const DEFAULT_COLOR = 'FFFFFF';
-/* harmony export (immutable) */ __webpack_exports__["f"] = DEFAULT_COLOR;
-
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__page_config__ = __webpack_require__(17);
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ((color) => {
-  document.getElementById(__WEBPACK_IMPORTED_MODULE_1__page_config__["d" /* COLOR_WIDGET_ID */]).innerHTML = __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_color_widget_mustache___default()({
-    color: (color || __WEBPACK_IMPORTED_MODULE_1__page_config__["f" /* DEFAULT_COLOR */]),
-    colorInputId: __WEBPACK_IMPORTED_MODULE_1__page_config__["c" /* COLOR_INPUT_ID */]
-  });
-});
-
-
-/***/ }),
-/* 19 */,
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_rgb_to_hex__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__page_config__ = __webpack_require__(17);
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ((px, py) => {
-  let canvas = document.getElementById(__WEBPACK_IMPORTED_MODULE_1__page_config__["a" /* CANVAS_ID */]);
-  let data = canvas.getContext('2d').getImageData(px, py, 1, 1).data;
-  return Object(__WEBPACK_IMPORTED_MODULE_0__utils_rgb_to_hex__["a" /* default */])(data[0], data[1], data[2]);
-});
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(0);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (() => {
@@ -1120,13 +1110,13 @@ const DEFAULT_COLOR = 'FFFFFF';
 
 
 /***/ }),
-/* 22 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_container_mustache__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_container_mustache__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_container_mustache___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mustache_loader_templates_container_mustache__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__page_config__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__page_config__ = __webpack_require__(0);
 
 
 
@@ -1140,26 +1130,18 @@ const DEFAULT_COLOR = 'FFFFFF';
 
 
 /***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(17);
-
-
-/* harmony default export */ __webpack_exports__["a"] = ((events) => {
-  let containerEl = document.getElementById(__WEBPACK_IMPORTED_MODULE_0__page_config__["e" /* CONTAINER_ID */]);
-  events.forEach((data) =>
-    containerEl.addEventListener(data.event, data.handler));
-});
-
+var H = __webpack_require__(1);
+module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div");t.b("\n" + i);t.b("  id=\"");t.b(t.v(t.f("containerId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("  style=\"");t.b("\n" + i);t.b("    position: fixed;");t.b("\n" + i);t.b("    z-index: 100000;");t.b("\n" + i);t.b("    left: 0;");t.b("\n" + i);t.b("    top: 0;");t.b("\n" + i);t.b("    right: 0;");t.b("\n" + i);t.b("    bottom: 0;");t.b("\n" + i);t.b("    background: transparent;");t.b("\n" + i);t.b("    cursor: crosshair;");t.b("\n" + i);t.b("    box-sizing: border-box;");t.b("\n" + i);t.b("    user-select: none;");t.b("\n" + i);t.b("  \">");t.b("\n" + i);t.b("  <div");t.b("\n" + i);t.b("    id=\"");t.b(t.v(t.f("canvasWrapperId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      z-index: 50;");t.b("\n" + i);t.b("      left: 0;");t.b("\n" + i);t.b("      top: 0;");t.b("\n" + i);t.b("      user-select: none;");t.b("\n" + i);t.b("      pointer-events: none;");t.b("\n" + i);t.b("    \"");t.b("\n" + i);t.b("  ></div>");t.b("\n" + i);t.b("  <div");t.b("\n" + i);t.b("    id=\"");t.b(t.v(t.f("colorWidgetId",c,p,0)));t.b("\"");t.b("\n" + i);t.b("    style=\"");t.b("\n" + i);t.b("      position: absolute;");t.b("\n" + i);t.b("      z-index: 100;");t.b("\n" + i);t.b("      left: 0;");t.b("\n" + i);t.b("      top: 0;");t.b("\n" + i);t.b("      right: 0;");t.b("\n" + i);t.b("      bottom: 0;");t.b("\n" + i);t.b("      user-select: none;");t.b("\n" + i);t.b("      pointer-events: none;");t.b("\n" + i);t.b("    \"");t.b("\n" + i);t.b("  ></div>");t.b("\n" + i);t.b("</div>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<div\n  id=\"{{containerId}}\"\n  style=\"\n    position: fixed;\n    z-index: 100000;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: transparent;\n    cursor: crosshair;\n    box-sizing: border-box;\n    user-select: none;\n  \">\n  <div\n    id=\"{{canvasWrapperId}}\"\n    style=\"\n      position: absolute;\n      z-index: 50;\n      left: 0;\n      top: 0;\n      user-select: none;\n      pointer-events: none;\n    \"\n  ></div>\n  <div\n    id=\"{{colorWidgetId}}\"\n    style=\"\n      position: absolute;\n      z-index: 100;\n      left: 0;\n      top: 0;\n      right: 0;\n      bottom: 0;\n      user-select: none;\n      pointer-events: none;\n    \"\n  ></div>\n</div>\n", H);return T.render.apply(T, arguments); };
 
 /***/ }),
-/* 24 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(0);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ((canvas) => {
@@ -1170,11 +1152,26 @@ const DEFAULT_COLOR = 'FFFFFF';
 
 
 /***/ }),
-/* 25 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(0);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ((events) => {
+  let containerEl = document.getElementById(__WEBPACK_IMPORTED_MODULE_0__page_config__["e" /* CONTAINER_ID */]);
+  events.forEach((data) =>
+    containerEl.addEventListener(data.event, data.handler));
+});
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(0);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ((events) => {
@@ -1185,29 +1182,29 @@ const DEFAULT_COLOR = 'FFFFFF';
 
 
 /***/ }),
-/* 26 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(17);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (() => {
-  return !!document.getElementById(__WEBPACK_IMPORTED_MODULE_0__page_config__["e" /* CONTAINER_ID */]);
-});
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(0);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (() => {
   let containerEl = document.getElementById(__WEBPACK_IMPORTED_MODULE_0__page_config__["e" /* CONTAINER_ID */]);
   document.body.removeChild(containerEl);
+});
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__page_config__ = __webpack_require__(0);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (() => {
+  return !!document.getElementById(__WEBPACK_IMPORTED_MODULE_0__page_config__["e" /* CONTAINER_ID */]);
 });
 
 

@@ -11,7 +11,7 @@
     "webpack": "^3.6.0"
   },
   "scripts": {
-    "build": "webpack --optimize-minimize",
+    "build": "webpack",
     "dev": "webpack --progress --colors --watch"
   },
   "dependencies": {
