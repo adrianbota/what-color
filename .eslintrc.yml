@@ -7,6 +7,7 @@ globals:
   module: true
   __dirname: true
   require: true
+  global: true
 parserOptions:
   sourceType: module
 rules:

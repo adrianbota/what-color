@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "what-color",
   "version": "0.0.1",
   "description": "Color picker extension for Chrome",
@@ -6,15 +7,37 @@
   "author": "Adrian Bota <adrianbota@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
+    "ava": "^0.22.0",
+    "browser-env": "^3.2.1",
     "mustache-loader": "^1.2.0",
+    "nyc": "^11.2.1",
+    "sinon": "^4.0.1",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.6.0"
   },
+  "ava": {
+    "files": [
+      "test/**/*.spec.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "concurency": 4,
+    "require": [
+      "babel-register",
+      "./test/mocks.js"
+    ]
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.js"
+    ]
+  },
   "scripts": {
     "build": "webpack",
-    "dev": "webpack --progress --colors --watch"
-  },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8"
+    "dev": "webpack --progress --colors --watch",
+    "test": "nyc ava",
+    "tdd": "nyc ava --verbose --watch"
   }
 }
