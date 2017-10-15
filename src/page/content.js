@@ -42,17 +42,18 @@ let destroy = () => {
   removeContainer();
 };
 
-let init = (canvas) => {
+let start = (data) => {
+  if (isContainerInjected()) {
+    return;
+  }
+
   injectContainer();
-  registerEvents(EVENTS);
-  injectCanvas(canvas);
   renderColorWidget();
+
+  convertDataToCanvas(data).then((canvas) => {
+    injectCanvas(canvas);
+    registerEvents(EVENTS);
+  });
 };
 
-onExtensionMessage({
-  'START': (data) => {
-    if (!isContainerInjected()) {
-      convertDataToCanvas(data).then(init);
-    }
-  }
-});
+onExtensionMessage({ 'START': start });

@@ -156,20 +156,21 @@ let destroy = () => {
   Object(__WEBPACK_IMPORTED_MODULE_9__remove_container__["a" /* default */])();
 };
 
-let init = (canvas) => {
+let start = (data) => {
+  if (Object(__WEBPACK_IMPORTED_MODULE_10__is_container_injected__["a" /* default */])()) {
+    return;
+  }
+
   Object(__WEBPACK_IMPORTED_MODULE_5__inject_container__["a" /* default */])();
-  Object(__WEBPACK_IMPORTED_MODULE_7__register_events__["a" /* default */])(EVENTS);
-  Object(__WEBPACK_IMPORTED_MODULE_6__inject_canvas__["a" /* default */])(canvas);
   Object(__WEBPACK_IMPORTED_MODULE_2__render_color_widget__["a" /* default */])();
+
+  Object(__WEBPACK_IMPORTED_MODULE_1__convert_data_to_canvas__["a" /* default */])(data).then((canvas) => {
+    Object(__WEBPACK_IMPORTED_MODULE_6__inject_canvas__["a" /* default */])(canvas);
+    Object(__WEBPACK_IMPORTED_MODULE_7__register_events__["a" /* default */])(EVENTS);
+  });
 };
 
-Object(__WEBPACK_IMPORTED_MODULE_0__common_on_message__["a" /* default */])({
-  'START': (data) => {
-    if (!Object(__WEBPACK_IMPORTED_MODULE_10__is_container_injected__["a" /* default */])()) {
-      Object(__WEBPACK_IMPORTED_MODULE_1__convert_data_to_canvas__["a" /* default */])(data).then(init);
-    }
-  }
-});
+Object(__WEBPACK_IMPORTED_MODULE_0__common_on_message__["a" /* default */])({ 'START': start });
 
 
 /***/ }),
@@ -226,9 +227,14 @@ let message = chrome.runtime.onMessage;
 /* harmony default export */ __webpack_exports__["a"] = ((image) => {
   let canvas = document.createElement('canvas');
   let context = canvas.getContext('2d');
+  let ratio = 1 / window.devicePixelRatio;
 
-  canvas.width = image.width / window.devicePixelRatio;
-  canvas.height = image.height / window.devicePixelRatio;
+  canvas.width = image.width;
+  canvas.height = image.height;
+
+  context.scale(ratio, ratio);
+  context.webkitImageSmoothingEnabled = false;
+  context.imageSmoothingEnabled = false;
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
   return canvas;
